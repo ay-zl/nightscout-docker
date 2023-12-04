@@ -19,6 +19,7 @@ services:
       # Uncomment this if IPv6 is not enabled on your host
       # DISABLE_IPV6: 'true'
     volumes:
+      - ./config.json:/app/config/production.json
       # For AX9000, please use "/mnt/docker_disk/mi_docker/nginxproxymanager/data:/data/db"
       - ./data:/data
       # For AX9000, please use "/mnt/docker_disk/mi_docker/nginxproxymanager/letsencrypt:/data/db"
