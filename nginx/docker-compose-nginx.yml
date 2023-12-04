@@ -1,39 +1,39 @@
-版本：“3”
-服务：
-  应用程序：
-    图片：'jc21/nginx-proxy-manager：最新'
-    重新开始： 重新启动：取消停止
-    端口：
-      # 这些端口的格式为<主机端口>:<容器端口># 这些端口的格式为<主机端口>:<容器端口>
-      - '80:80'   # 公共 HTTP 端口 - '80:80' # 公共 HTTP 端口
-      - '443:443'    # 公共 HTTPS 端口 - '443:443' # 公共 HTTPS 端口
-      - '81:81'   # 管理 Web 端口 - '81:81' # 管理 Web 端口
-      #您想要公开的任何其他流端口#添加您想要公开的任何其他流端口
-      # - '21:21' # FTP# - '21:21' # FTP
-    环境：
-      DB_MYSQL_HOST ：“数据库”
-      DB_MYSQL_端口：3306
-      DB_MYSQL_USER ：“npm”
-      DB_MYSQL_PASSWORD ：“npm”
-      DB_MYSQL_NAME ：“npm”
-      #如果您的主机上未启用IPv6，请取消注释此选项
-      # DISABLE_IPV6: '真' # DISABLE_IPV6: '真'
-    卷：
-      # 对于 AX9000，请使用“/mnt/docker_disk/mi_docker/nginxproxymanager/data:/data/db”# 对于 AX9000，请使用“/mnt/docker_disk/mi_docker/nginxproxymanager/data:/data/db”
-      -          - ./数据:/数据
-      # 对于 AX9000，请使用“/mnt/docker_disk/mi_docker/nginxproxymanager/letsencrypt:/data/db”# 对于 AX9000，请使用“/mnt/docker_disk/mi_docker/nginxproxymanager/letsencrypt:/data/db”
-      -          - ./letsencrypt:/etc/letsencrypt
-    依赖于依赖：
-      -         - D b
+version: "3"
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      # These ports are in format <host-port>:<container-port>
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '81:81' # Admin Web Port
+      # Add any other Stream port you want to expose
+      # - '21:21' # FTP
+    environment:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "npm"
+      DB_MYSQL_PASSWORD: "npm"
+      DB_MYSQL_NAME: "npm"
+      # Uncomment this if IPv6 is not enabled on your host
+      # DISABLE_IPV6: 'true'
+    volumes:
+      # For AX9000, please use "/mnt/docker_disk/mi_docker/nginxproxymanager/data:/data/db"
+      - ./data:/data
+      # For AX9000, please use "/mnt/docker_disk/mi_docker/nginxproxymanager/letsencrypt:/data/db"
+      - ./letsencrypt:/etc/letsencrypt
+    depends_on:
+      - db
 
-  D b：
-    图片：'yobasystems/alpine-mariadb：最新'
-    restart:     重新启动：除非停止
+  db:
+    image: 'yobasystems/alpine-mariadb:latest'
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: 'npm'
       MYSQL_DATABASE: 'npm'
       MYSQL_USER: 'npm'
       MYSQL_PASSWORD: 'npm'
     volumes:
-      # 对于 AX9000，请使用“/mnt/docker_disk/mi_docker/nginxproxymanager/data/mysql:/data/db”# For AX9000, please use "/mnt/docker_disk/mi_docker/nginxproxymanager/data/mysql:/data/db"
-      -       - ./data/mysql:/var/lib/mysql
+      # For AX9000, please use "/mnt/docker_disk/mi_docker/nginxproxymanager/data/mysql:/data/db"
+      - ./data/mysql:/var/lib/mysql
