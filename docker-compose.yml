@@ -1,7 +1,7 @@
 version: '3'
 services:
   cgm-remote-monitor:
-    image: "ay-zl/nightscout:latest"
+    image: "diyaps/nightscout:latest"
     environment:
       ## settings according to
       ## https://github.com/nightscout/cgm-remote-monitor/blob/master/README.md#environment
@@ -87,7 +87,7 @@ services:
     image: mongo:4.4.17-rc0-focal
     volumes:
     #For AX9000, please use "/mnt/docker_disk/mi_docker/mongodb:/data/db"
-      - /mnt/docker_disk/mi_docker/mongodb:/data/db
+      - ./mongodb:/data/db
     ports:
       - 27017:27017
 
